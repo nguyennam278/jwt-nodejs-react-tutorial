@@ -6,8 +6,9 @@ const handleHelloWorld = (req, res) => {
 };
 
 // render view userPage
-const userPage = (req, res) => {
-  return res.render("user.ejs");
+const userPage = async (req, res) => {
+  let userList = await userService.getUserList();
+  return res.render("user.ejs", { userList });
 };
 
 const handleCreateUser = (req, res) => {
@@ -16,8 +17,7 @@ const handleCreateUser = (req, res) => {
   let username = req.body.username;
 
   // query to database
-  //   userService.createNewUser(email, password, username);
-  userService.getUserList();
+  userService.createNewUser(email, password, username);
 
   return res.send("User");
 };
