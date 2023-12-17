@@ -7,6 +7,7 @@ const router = express.Router();
 const initApiWebRoutes = (app) => {
   router.get("/testapi", apiController.testapi);
   router.post("/register", apiController.handleRegister);
+  router.post("/login", apiController.handleLogin);
 
   return app.use("/api/v1/", router);
 };

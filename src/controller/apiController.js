@@ -1,4 +1,5 @@
 import register from "../service/register";
+
 const testapi = (req, res) => {
   return res.status(200).json({
     message: "OK",
@@ -39,4 +40,21 @@ const handleRegister = async (req, res) => {
     });
   }
 };
-module.exports = { testapi, handleRegister };
+
+const handleLogin = async (req, res) => {
+  try {
+    let data = await register.userLogin(req.body);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      EM: "error from server",
+      EC: -1,
+      DT: "",
+    });
+  }
+};
+module.exports = { testapi, handleRegister, handleLogin };
