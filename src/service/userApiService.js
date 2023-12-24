@@ -4,7 +4,7 @@ const getAllUser = async () => {
   try {
     let users = await db.User.findAll({
       attributes: ["id", "username", "email", "phone", "sex"],
-      //  include:{model: db.Group, attributes:["name", "description"]}
+      // include: { model: db.Group, attributes: ["name", "description"] },
     });
 
     if (users) {
@@ -36,6 +36,8 @@ const getUserPaginate = async (page, limit) => {
     let { count, rows } = await db.User.findAndCountAll({
       offset: offset,
       limit: limit,
+      attributes: ["id", "username", "email", "phone", "sex"],
+      // include: { model: db.Group, attributes: ["name", "description"] },
     });
 
     let data = {
@@ -49,7 +51,6 @@ const getUserPaginate = async (page, limit) => {
       EC: 0,
       DT: data,
     };
-    console.log(">>>Check data", data);
   } catch (error) {
     console.log(error);
     return {
@@ -89,11 +90,31 @@ const updatelUser = async (data) => {
 
 const deleteUser = async (id) => {
   try {
-    await db.User.delete({
+    let user = await db.User.findOne({
       where: { id: id },
     });
+
+    if (user) {
+      await user.destroy();
+      return {
+        EM: "Delete Success!!!",
+        EC: 0,
+        DT: [],
+      };
+    } else {
+      return {
+        EM: "User not exsit",
+        EC: 2,
+        DT: [],
+      };
+    }
   } catch (error) {
     console.log(error);
+    return {
+      EM: "Something wrong with services",
+      EC: 1,
+      DT: [],
+    };
   }
 };
 
