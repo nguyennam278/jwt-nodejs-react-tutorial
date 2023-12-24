@@ -2,7 +2,7 @@ import express from "express";
 import homeController from "../controller/homeController";
 import apiController from "../controller/apiController";
 import userController from "../controller/userController";
-
+import groupController from "../controller/groupController";
 const router = express.Router();
 
 const initApiWebRoutes = (app) => {
@@ -15,6 +15,7 @@ const initApiWebRoutes = (app) => {
   router.put("/user/update", userController.updateFunc);
   router.delete("/user/delete", userController.deleteFunc);
 
+  router.get("/group/read", groupController.readFunc);
   return app.use("/api/v1/", router);
 };
 export default initApiWebRoutes;
